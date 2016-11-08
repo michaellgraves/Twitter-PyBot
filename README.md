@@ -1,4 +1,4 @@
-# bot-master
+# Twitter-PyBot
 
 A Python3-based Twitter bot leveraging the [Tweepy API] (http://www.tweepy.org/)
 
