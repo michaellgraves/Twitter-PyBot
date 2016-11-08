@@ -2,7 +2,8 @@
 
 A Python3-based Twitter bot leveraging the [Tweepy API] (http://www.tweepy.org/)
 
-This bot automates a number of Twitter-related activities including: 
+This bot automates a number of Twitter-related activities including:
+
 1. Searching Twitter for specific keywords, retweeting relevant tweets 
 2. Liking a tweet
 3. Following an author of a relevant tweet
@@ -14,6 +15,7 @@ This bot automates a number of Twitter-related activities including:
 9. Tweeting out random message from a list of messages.
 
 In addition this project also includes these helpful features:
+
 1. Externalized JSON configuration files each striped by bot id, allowing you to easily run several bots using the same program instance
 2. Robust exception handling to ensure your bot keeps running even when encountering tweepy/Twitter errors
 3. Detailed log files which roll over and are limited in size to ensure they do not fill up your machine's disk space
