@@ -77,7 +77,7 @@ Bot-specific configuration
 
 ## Instructions to deploy Bot to AWS:
 
-With an Amazon Prime account, you have access to a free EC2 micro environment which has 1 CPU, 1 gb space.
+An Amazon EC2 micro environment which has 1 CPU, 1 Gb of space is perfect for running this bot
 
 Read [Amazon EC2 Getting Started] (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html)
 
