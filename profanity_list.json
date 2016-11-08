@@ -1,8 +1,9 @@
 {  
-   "desc":"profanity list for all bots",
+   "desc":"twitter exclude terms json config supports multiple bots",
    "version":"1.0",
    "profanityList":[  
       "f**ck",
+      "hoe",
       "shithole",
       "wtf",
       "fking",
