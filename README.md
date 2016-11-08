@@ -4,15 +4,15 @@ A Python3-based Twitter bot leveraging the [Tweepy API] (http://www.tweepy.org/)
 
 This bot automates a number of Twitter-related activities including:
 
-1. Searching Twitter for specific keywords, retweeting relevant tweets 
-2. Liking a tweet
-3. Following an author of a relevant tweet
-4. Like a set of tweets from a random follower
-5. Like a set of tweets from authors who have retweeted your tweets
-6. Providing limits to bot activity to prevent Twitter bot restrictions
-7. Provide a profanity filter to avoid retweeting profane tweets
+1. Searching Twitter for specific keywords, scoring results based on relevancy, and retweeting relevant tweets 
+2. Following an author of a relevant tweet
+3. Liking a set of tweets from a random follower
+4. Liking a set of tweets from authors who have retweeted your tweets
+5. Automatically following users who follow you
+6. Providing limits to activity to prevent Twitter bot restrictions
+7. Filtering out profane tweets
 8. Implementing randomness for activity heartbeat, friend/follower ratios, and bot activity window such that your account does not look bot-controlled
-9. Tweeting out random message from a list of messages.
+9. Tweeting out random message from a list of messages
 
 In addition this project also includes these helpful features:
 
@@ -21,7 +21,7 @@ In addition this project also includes these helpful features:
 3. Detailed log files which roll over and are limited in size to ensure they do not fill up your machine's disk space
 4. A stats file which tracks your Twitter activity and followers over time
 5. A bot launcher which ensures your JSON configuration files are well-formed and that each bot's Twitter credentials are valid before launching the bots into a seperate thread
-6. Metadata refresh between bot cycles such that you can change the bot configuration parameters while the bot is still running
+6. Metadata refresh between bot cycles enables you to change the bot configuration parameters while the bot is still running
 
 ## This project includes the following files
 ###Python Programs:
@@ -40,14 +40,15 @@ Please note that when configuring multiple bots, you must place their metadata i
 
 Configuration parameters in bot-config.json:
 
-Cross-bot configuration
+Global configuration
 * searchTerms - file name which includes list of bot search terms
 * profanityList - file name for profanity list
 * excludeTerms - file name for terms to exclude from search results
 * tweetText - file name which with list of tweets
+* minSleepTime - minimum time for bot heart beat
 
 Bot-specific configuration
-* id - ID number of your bot (optional)
+* id - ID number of your bot
 * name - name of your bot. This is used in the log file
 * logFileName - name of your operational log file. User stats will be written to "logfilename_stats"
 * maxSizeLogFile - maximum size of each logfile. There will be 2 log files created, operational and stats, with 4 back-ups each.
@@ -58,11 +59,18 @@ Bot-specific configuration
 * searchTerms - source file for seed search terms
 * profanityList - source file for profanity list
 * tweetText - any seed text that should be tweeted on a period basis
-* maxTweetsSearch - maxium number of tweets to search
-* targetTweetActionsPerSession -- maxium number of tweet actions per session
-* friendFollowerRatio - target friend to follower ratio
-* friendPacingTier - point at which the friend to follower ratio kicks in
-* relevancyProximit - how close two words need to be together to be considered relevant
+* maxTweetsSearch - maxium number of results to return in Twitter search
+* targetTweetActionsPerSession - maxium number of tweet actions per session (includes retweets, likes, and follow actions)
+* friendFollowerRatio - target friend to follower ratio. bot will automatically remove friends if you adjust this down.
+* friendPacingTier - # friends at which the friend to follower ratio kicks in
+* numFriendsToRemove - # of friends to remove each cycle to pace out reduction in the friendFollowerRatio
+* removeFriendsFrequency - frequency to remove friends. Tied to the overall hearbeat
+* maxWaitTimeBetweenActivity - the frequency (in seconds) between bot cycles. this sets the overall bot heartbeat
+* tweetStatus - boolean value, determines whether bot should send out tweets from tweetText file
+* tweetStatusFrequency - frequency which bot should send out tweets
+* loggingFrequency - frequency which bot should log stats
+* followerActionsFrequency - frequency which bot should take follower actions such as like their tweets
+* relevancyProximit - how close the two search terms need to be together in order for the tweet to be considered relevant
 * morningStartTime - 24H time in PST for the bot to start activity
 * eveningEndTime - 24H time in PST for the bot to end activity
 
@@ -93,5 +101,5 @@ Read [AWS EC2 Putty Guide] (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/p
 5. Login via putty
 * screen -S <screen_name>
 * python34 stream.py
-6. Return to same screen name
+To return to same screen name
 * screen -r <screen_name>
