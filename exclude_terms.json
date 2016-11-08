@@ -1,0 +1,22 @@
+{
+   "desc": "twitter exclude terms json config supports multiple bots",
+   "version": "1.0",
+   "bots": [
+      {
+         "id": "001",
+         "name": "bot-name1",
+         "excludeTerms": [
+            "term-1",
+            "term-2"
+         ]
+      },
+      {
+         "id": "002",
+         "name": "bot-name2",
+         "excludeTerms": [
+            "term-1",
+            "term-2"
+         ]
+      }
+   ]
+}

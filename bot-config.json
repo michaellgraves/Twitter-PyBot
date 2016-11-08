@@ -1,0 +1,74 @@
+{  
+   "desc":"Config supports multiple bots",
+   "version":"1.0",
+   "jsonConfigFiles":{  
+      "searchTerms":"search_terms.json",
+      "profanityList":"profanity_list.json",
+      "excludeTerms":"exclude_terms.json",
+      "tweetText":"update_status_text.json"
+   },
+   "globalParameters":{  
+      "minSleepTime":"600"
+    },
+
+   "bots":[  
+      {  
+         "id":"001",
+         "name":"bot-name1",
+         "logFileName":"bot-name_log.out",
+         "maxSizeLogFile":"300000",
+         "accessKeys":{  
+            "consumerKey":"your-twitter-consumer-key",
+            "consumerSecret":"your-twitter-consumer-secret",
+            "accessToken":"your-twitter-access-token",
+            "accessSecret":"your-twitter-access-secret"
+         },
+         "behaviors":{  
+            "maxTweetsSearch":"1000",
+            "targetTweetActionsPerSession":"10",
+            "friendFollowerRatio":"3",
+            "friendPacingTier":"500",
+            "numFriendsToRemove":"15",
+            "removeFriendsFrequency": "2",
+            "maxWaitTimeBetweenActivity":"3600",
+            "tweetStatus":"False",
+            "tweetStatusFrequency":"12000",
+            "loggingFrequency":"6",
+            "followerActionsFrequency":"24",
+            "relevancyProximity":"2",
+            "morningStartTime":"6",
+            "eveningEndTime":"23"
+         }
+      },
+      {  
+         "id":"002",
+         "name":"bot-name2",
+         "logFileName":"bot-name2_log.out",
+         "maxSizeLogFile":"50000",
+         "accessKeys":{  
+            "consumerKey":"your-twitter-consumer-key",
+            "consumerSecret":"your-twitter-consumer-secret",
+            "accessToken":"your-twitter-access-token",
+            "accessSecret":"your-twitter-access-secret"
+         },
+         "behaviors":{  
+            "maxTweetsSearch":"300",
+            "targetTweetActionsPerSession":"5",
+            "friendFollowerRatio":"10",
+            "friendPacingTier":"100",
+            "numFriendsToRemove":"2",
+            "removeFriendsFrequency": "2",
+            "maxWaitTimeBetweenActivity":"7200",
+            "tweetStatus":"False",
+            "tweetStatusFrequency":"500",
+            "loggingFrequency":"5",
+            "followerActionsFrequency":"2",
+            "relevancyProximity":"2",
+            "morningStartTime":"8",
+            "eveningEndTime":"21"
+
+         }
+      }
+
+   ]
+}

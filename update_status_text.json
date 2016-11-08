@@ -1,0 +1,20 @@
+{  
+   "desc":"preformulated statements to use for twitter status json config supports multiple bots",
+   "version":"1.0",
+   "bots":[  
+      {  
+         "id":"001",
+         "name":"bot-name1",
+         "statements":[  
+            "tweet text 1",
+            "tweet text 2"
+         ]
+      },
+      {  
+         "id":"002",
+         "name":"bot-name2",
+         "statements":[  
+
+         ]
+      }   ]
+}

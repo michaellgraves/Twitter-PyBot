@@ -1,0 +1,23 @@
+{  
+   "desc":"twitter search terms json config supports multiple bots",
+   "version":"1.0",
+   "bots":[  
+      {  
+         "id":"001",
+         "name":"bot-name1",
+         "searchTerms":[  
+            "term1 term2",
+            "term3 term4"
+         ]
+      },
+      {  
+         "id":"002",
+         "name":"bot-name2",
+         "searchTerms":[  
+            "term1 term2",
+            "term3 term4"
+         ]
+      }
+
+   ]
+}
