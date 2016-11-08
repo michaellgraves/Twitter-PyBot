@@ -11,7 +11,7 @@ This bot automates a number of Twitter-related activities including:
 5. Automatically following users who follow you
 6. Providing limits to activity to prevent Twitter bot restrictions
 7. Filtering out profane tweets
-8. Implementing randomness for activity heartbeat, friend/follower ratios, and bot activity window such that your account does not look bot-controlled
+8. Implementing randomness for activity heartbeat, controlling friend to follower ratios, and keep specific bot activity to daily windows such that your account does not look bot-controlled
 9. Tweeting out random message from a list of messages
 
 In addition this project also includes these helpful features:
@@ -52,10 +52,10 @@ Bot-specific configuration
 * name - name of your bot. This is used in the log file
 * logFileName - name of your operational log file. User stats will be written to "logfilename_stats"
 * maxSizeLogFile - maximum size of each logfile. There will be 2 log files created, operational and stats, with 4 back-ups each.
-* consumerKey - [Define in Twitter Apps](apps.twitter.com)
-* consumerSecret - [Define in Twitter Apps](apps.twitter.com)
-* accessToken - [Define in Twitter Apps](apps.twitter.com)
-* accessSecret - [Define in Twitter Apps](apps.twitter.com)
+* consumerKey - [Define in Twitter Apps](http://apps.twitter.com)
+* consumerSecret - [Define in Twitter Apps](http://apps.twitter.com)
+* accessToken - [Define in Twitter Apps](http://apps.twitter.com)
+* accessSecret - [Define in Twitter Apps](http://apps.twitter.com)
 * searchTerms - source file for seed search terms
 * profanityList - source file for profanity list
 * tweetText - any seed text that should be tweeted on a period basis
