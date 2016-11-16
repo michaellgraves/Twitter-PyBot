@@ -17,6 +17,7 @@ from datetime import datetime
 from pytz import timezone
 from random import shuffle
 import nltk.data
+import botornot
 
 
 
@@ -37,12 +38,12 @@ class Stream(threading.Thread):
         get_behaviors(self) 
 
         # get credentials, create api object.        
-        consumer_key = self.config_data["bots"][self.botid]["accessKeys"]["consumerKey"]
-        consumer_secret = self.config_data["bots"][self.botid]["accessKeys"]["consumerSecret"]
-        access_token = self.config_data["bots"][self.botid]["accessKeys"]["accessToken"]
-        access_secret = self.config_data["bots"][self.botid]["accessKeys"]["accessSecret"]
-        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-        auth.set_access_token(access_token, access_secret)
+        self.consumer_key = self.config_data["bots"][self.botid]["accessKeys"]["consumerKey"]
+        self.consumer_secret = self.config_data["bots"][self.botid]["accessKeys"]["consumerSecret"]
+        self.access_token = self.config_data["bots"][self.botid]["accessKeys"]["accessToken"]
+        self.access_secret = self.config_data["bots"][self.botid]["accessKeys"]["accessSecret"]
+        auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
+        auth.set_access_token(self.access_token, self.access_secret)
         self.api = tweepy.API(auth)
 
         # create logger for operational data
@@ -152,6 +153,23 @@ def is_it_sleep_time(self):
     else:
         return False
 
+def bon_analysis(self,twitter_handle): #bot or not score - more info here: https://truthy.indiana.edu/botornot/
+    twitter_app_auth = {
+    'consumer_key': self.consumer_key,
+    'consumer_secret': self.consumer_secret,
+    'access_token': self.access_token,
+    'access_token_secret': self.access_secret,
+    }
+
+    bon = botornot.BotOrNot(**twitter_app_auth)
+    # Check a single account
+    try:
+        result = bon.check_account(twitter_handle)
+        score = result['score']
+    except botornot.NoTimelineError as e:
+        score = 'null'
+    
+    return score
     
 
 def log_tweepy_error_message(self, error_text,tweep_error):    
@@ -160,7 +178,7 @@ def log_tweepy_error_message(self, error_text,tweep_error):
 
 def log_user_metrics(self):
     try:            
-        self.lgr_stats.info(str(self.api.me().statuses_count)+','+str(self.api.me().friends_count)+','+str(self.api.me().followers_count))
+        self.lgr_stats.info(str(self.api.me().statuses_count)+','+str(self.api.me().friends_count)+','+str(self.api.me().followers_count)+','+ str(bon_analysis(self,self.api.me().screen_name)))
     except tweepy.TweepError as e:
         log_tweepy_error_message(self,'Error logging user metrics',e)
 

@@ -99,6 +99,7 @@ Read [AWS EC2 Putty Guide] (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/p
 * sudo python34 -m pip install tweepy
 * sudo python34 -m pip install pytz
 * sudo python34 -m pip install nltk
+* sudo python34 -m pip install botornot
 4. Configure WinScp to connect to your AWS instance
 5. Copy bot program files
 5. Login via putty
