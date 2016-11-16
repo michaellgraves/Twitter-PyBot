@@ -66,6 +66,9 @@ Bot-specific configuration
 * numFriendsToRemove - # of friends to remove each cycle to pace out reduction in the friendFollowerRatio
 * removeFriendsFrequency - frequency to remove friends. Tied to the overall hearbeat
 * maxWaitTimeBetweenActivity - the frequency (in seconds) between bot cycles. this sets the overall bot heartbeat
+* processListLike - boolean value, determines whether bot should like relevant tweets
+* processListRetweet - boolean value, determines whether bot should retweet relevant tweets
+* processListFollow - boolean value, determines whether bot should follow authors of relevant tweets
 * tweetStatus - boolean value, determines whether bot should send out tweets from tweetText file
 * tweetStatusFrequency - frequency which bot should send out tweets
 * loggingFrequency - frequency which bot should log stats

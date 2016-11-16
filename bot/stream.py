@@ -128,6 +128,9 @@ def get_behaviors(self):
     self.num_friends_to_remove=int(self.config_data["bots"][self.botid]["behaviors"]["numFriendsToRemove"])   # number of friends to remove during clean-up cycle
     self.remove_friends_frequency=int(self.config_data["bots"][self.botid]["behaviors"]["removeFriendsFrequency"])   # frequency to remove friends
     self.max_wait_time_between_activity=int(self.config_data["bots"][self.botid]["behaviors"]["maxWaitTimeBetweenActivity"])   # maxium wait time between bot activity
+    self.process_list_like=self.config_data["bots"][self.botid]["behaviors"]["processListLike"]   # boolean, determines if bot will like tweets 
+    self.process_list_retweet=self.config_data["bots"][self.botid]["behaviors"]["processListRetweet"]   # boolean, determines if bot will rewteet  
+    self.process_list_follow=self.config_data["bots"][self.botid]["behaviors"]["processListFollow"]   # boolean, determines if bot will follow      
     self.tweet_status=self.config_data["bots"][self.botid]["behaviors"]["tweetStatus"]   # Boolean, whether should tweet status
     self.tweet_status_frequency=int(self.config_data["bots"][self.botid]["behaviors"]["tweetStatusFrequency"])   # Frequency with which to tweet status
     self.logging_frequency=int(self.config_data["bots"][self.botid]["behaviors"]["loggingFrequency"])   # frequency to log stats
@@ -415,13 +418,16 @@ def process_list(self):
         proc_list=[]
         proc_list = curate_tweet_list(self) #obtain list of tweets to take action on
         tweet_actions=0
-        for tweet in proc_list:        
-            if like_tweet(self,tweet[0]):
-                tweet_actions += 1
-            if retweet(self,tweet[0]): 
-                tweet_actions += 1
-            if follow_user(self,tweet[1]):            
-                tweet_actions += 1 
+        for tweet in proc_list:   
+            if self.process_list_like=='True': # check if bot should like tweets
+                if like_tweet(self,tweet[0]):
+                    tweet_actions += 1
+            if self.process_list_retweet=='True': # check if bot should rewteet                    
+                if retweet(self,tweet[0]): 
+                    tweet_actions += 1
+            if self.process_list_follow=='True': # check if bot should follow                                        
+                if follow_user(self,tweet[1]):            
+                    tweet_actions += 1 
             if tweet_actions >= self.target_tweet_actions_per_session: #keep actions per session within specified limit
                 break
             self.lgr.info('Tweet actions for this session:, ' + str(tweet_actions))
@@ -486,18 +492,24 @@ def cleanup_friends(self):
 
             if friends_count > self.friend_pacing_tier: # don't bother to do any clean-up if friend count is below the pacing tier
                  if friend_to_follower > self.friend_to_follower_ratio: # check friend to follower ratio vs. target
-                     num_to_cleanup= self.num_friends_to_remove # number of friends to remove.
-                     self.lgr.info('Time to clean-up friends list! Friend count: ' + str(num_to_cleanup))
-                     friends_list=self.api.friends_ids(self.api.me().id)
-                     followers_list=self.api.followers_ids(self.api.me().id)
-                     friends_to_remove_list= [x for x in friends_list if x not in followers_list]
-                     shuffle(friends_to_remove_list) # randomize the remove list
+                    total_num_to_remove=friends_count-(followers_count*self.friend_to_follower_ratio) #determine total friends to remove
+                    
+                    if total_num_to_remove>self.num_friends_to_remove: 
+                        num_to_cleanup= self.num_friends_to_remove # number of friends to remove.
+                    else:
+                        num_to_cleanup= total_num_to_remove # only remove the 
 
-                     for id in friends_to_remove_list[0:num_to_cleanup]:
-                             try:
-                                 self.api.destroy_friendship(id)
-                             except tweepy.TweepError as e:
-                                 self.lgr.info('Tweepy error in friends_user_cleanup(): ' + str(e))                         
+                    self.lgr.info('Time to clean-up friends list! Friend count: ' + str(num_to_cleanup))
+                    friends_list=self.api.friends_ids(self.api.me().id)
+                    followers_list=self.api.followers_ids(self.api.me().id)
+                    friends_to_remove_list= [x for x in friends_list if x not in followers_list]
+                    shuffle(friends_to_remove_list) # randomize the remove list
+
+                    for id in friends_to_remove_list[0:num_to_cleanup]:
+                            try:
+                                self.api.destroy_friendship(id)
+                            except tweepy.TweepError as e:
+                                self.lgr.info('Tweepy error in friends_user_cleanup(): ' + str(e))                         
                  else:
                     self.lgr.info('Friends to followers ratio looks good!')
             else:
