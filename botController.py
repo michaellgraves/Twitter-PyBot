@@ -7,11 +7,12 @@ Created on Fri Sep  2 20:45:08 2016
 import tweepy
 import json
 import threading
+import os
 from bot import stream
 
 # open up the bot config file
 try:
-    with open('bot-config.json') as data_file:    
+    with open(os.getcwd() + '/config/' + 'bot-config.json') as data_file:    
         config_data = json.load(data_file)
     print('Loading bot-config.json...')        
 except ValueError as e:
@@ -23,7 +24,7 @@ threads = []
 
 def check_bot_creditials(botid):
 
-        with open('bot-config.json') as data_file:    
+        with open(os.getcwd() + '/config/' + 'bot-config.json') as data_file:    
             config_data = json.load(data_file)
 
         consumer_key = config_data["bots"][botid]["accessKeys"]["consumerKey"]
@@ -42,7 +43,7 @@ def check_bot_creditials(botid):
 #check that the JSON files valid    
 def is_valid(file_name):
     try:
-        with open(config_data["jsonConfigFiles"][file_name]) as data_file:
+        with open(os.getcwd() + '/config/' + config_data["jsonConfigFiles"][file_name]) as data_file:
             json_object = json.load(data_file)
     except ValueError as e:
         print('JSON file: ' + file_name + ' is invalid')

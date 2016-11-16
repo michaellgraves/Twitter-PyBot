@@ -18,9 +18,6 @@ from pytz import timezone
 from random import shuffle
 import nltk.data
 import botornot
-
-
-
   
 class Stream(threading.Thread):
 
@@ -31,7 +28,7 @@ class Stream(threading.Thread):
         self.botid = int(bot_number)
         
         # get bot metadata file
-        with open('bot-config.json') as data_file:    
+        with open(os.getcwd() + '/config/' + 'bot-config.json') as data_file:    
             self.config_data = json.load(data_file)
 
         # get behavior metadata
@@ -45,7 +42,7 @@ class Stream(threading.Thread):
         auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
         auth.set_access_token(self.access_token, self.access_secret)
         self.api = tweepy.API(auth)
-
+        
         # create logger for operational data
         self.bot_name = self.config_data["bots"][self.botid]["name"]
         self.LOG_FILENAME = os.getcwd() + '/logs/' + self.config_data["bots"][self.botid]["logFileName"]
@@ -119,7 +116,7 @@ class Stream(threading.Thread):
  
 def get_behaviors(self):
     # get latest bot meta data file
-    with open('bot-config.json') as data_file:    
+    with open(os.getcwd() + '/config/' + 'bot-config.json') as data_file:    
             self.config_data = json.load(data_file)
 
     self.max_tweets_search=int(self.config_data["bots"][self.botid]["behaviors"]["maxTweetsSearch"])   # maxium number of tweets to search
@@ -186,7 +183,7 @@ def log_user_metrics(self):
 def get_status_text(self):    
 
     #Load text for status updates
-    with open(self.config_data["jsonConfigFiles"]["tweetText"]) as data_file:    
+    with open(os.getcwd() + '/config/' + self.config_data["jsonConfigFiles"]["tweetText"]) as data_file:    
         status_text = json.load(data_file)
     # select text to tweet
     rand_num=random.randint(0, len(status_text)-1)
@@ -219,7 +216,7 @@ def check_application_limit(self):
 
 def get_search_data(self):
     #laod search terms
-    with open(self.config_data["jsonConfigFiles"]["searchTerms"]) as data_file:    
+    with open(os.getcwd() + '/config/' + self.config_data["jsonConfigFiles"]["searchTerms"]) as data_file:    
         search_data = json.load(data_file)
     #grab a random one..
     rand_num=random.randint(0, len(search_data["bots"][self.botid]["searchTerms"])-1)
@@ -274,7 +271,7 @@ def remove_profane_tweets(self,raw_list_p):
     clean_list=[]
     num_profane_tweets=0
     #laod profanity list
-    with open(self.config_data["jsonConfigFiles"]["profanityList"]) as data_file:    
+    with open(os.getcwd() + '/config/' + self.config_data["jsonConfigFiles"]["profanityList"]) as data_file:    
         profane_data = json.load(data_file)
         profane_terms=profane_data['profanityList']
     
@@ -294,7 +291,7 @@ def remove_excludedterms_from_tweets(self,raw_list_e):
     remaining_excluded_list=[]
     num_excludedterms_tweets=0
     #laod exclude terms list
-    with open(self.config_data["jsonConfigFiles"]["excludeTerms"]) as data_file:    
+    with open(os.getcwd() + '/config/' + self.config_data["jsonConfigFiles"]["excludeTerms"]) as data_file:    
         exclude_data = json.load(data_file)
         exclude_terms=exclude_data["bots"][self.botid]["excludeTerms"]
     
