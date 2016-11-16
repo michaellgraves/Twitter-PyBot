@@ -103,8 +103,8 @@ Read [AWS EC2 Putty Guide] (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/p
 4. Configure WinScp to connect to your AWS instance
 5. Copy bot program files
 5. Login via putty
-* screen -S <screen_name>
+* screen -S screen_name
 * python34 stream.py
 
 To return to same screen name
-* screen -r <screen_name>
+* screen -r screen_name
