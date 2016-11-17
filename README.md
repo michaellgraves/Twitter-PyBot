@@ -37,6 +37,7 @@ Please note that when configuring multiple bots, you must place their metadata i
 * exclude_terms.json - Terms used to filter out tweet search results
 * profanity_list.json - Profane terms to filter out tweet search results. This is the only file not striped by bot id.
 * update_status_test.json - List of tweets to send out at random times.
+* schedule.json - daily work schedules 
 
 Configuration parameters in bot-config.json:
 
@@ -59,6 +60,7 @@ Bot-specific configuration
 * searchTerms - source file for seed search terms
 * profanityList - source file for profanity list
 * tweetText - any seed text that should be tweeted on a period basis
+* workSchedule - bot work schedule (details in schedule.json)
 * maxTweetsSearch - maxium number of results to return in Twitter search
 * targetTweetActionsPerSession - maxium number of tweet actions per session (includes retweets, likes, and follow actions)
 * friendFollowerRatio - target friend to follower ratio. bot will automatically remove friends if you adjust this down.
@@ -73,9 +75,7 @@ Bot-specific configuration
 * tweetStatusFrequency - frequency which bot should send out tweets
 * loggingFrequency - frequency which bot should log stats
 * followerActionsFrequency - frequency which bot should take follower actions such as like their tweets
-* relevancyProximit - how close the two search terms need to be together in order for the tweet to be considered relevant
-* morningStartTime - 24H time in PST for the bot to start activity
-* eveningEndTime - 24H time in PST for the bot to end activity
+* relevancyProximity - how close the two search terms need to be together in order for the tweet to be considered relevant
 
 
 ## Instructions to deploy Bot to AWS:

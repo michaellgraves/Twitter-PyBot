@@ -79,7 +79,7 @@ class Stream(threading.Thread):
             get_behaviors(self) 
 
             #Put behaviors that should happen during active time here:
-            if not is_it_sleep_time(self): # check if the bot should be active
+            if is_bot_active(self): # check if the bot should be active
                 self.lgr.info('Time for bot to be active...')    
                 process_list(self) #start a twitter interaction
                 # frequency for follower actions
@@ -92,8 +92,8 @@ class Stream(threading.Thread):
                 if self.tweet_status=='True' and i%self.tweet_status_frequency == 0: 
                     tweet_status(self,get_status_text(self))
 
+            else: 
             #Put behaviors that happen during inactive hours here (e.g. account clean-up):
-            if is_it_sleep_time(self): # check if the bot should be active
                 self.lgr.info('Bot is inactive...')    
                 if i%self.remove_friends_frequency == 0: # frequency for removing friends
                     cleanup_friends(self)                        
@@ -119,6 +119,7 @@ def get_behaviors(self):
     with open(os.getcwd() + '/config/' + 'bot-config.json') as data_file:    
             self.config_data = json.load(data_file)
 
+    self.work_schedule=self.config_data["bots"][self.botid]["behaviors"]["workSchedule"]   # get the bot work schedule
     self.max_tweets_search=int(self.config_data["bots"][self.botid]["behaviors"]["maxTweetsSearch"])   # maxium number of tweets to search
     self.target_tweet_actions_per_session=int(self.config_data["bots"][self.botid]["behaviors"]["targetTweetActionsPerSession"])  # maxium number of tweet actions per session
     self.friend_to_follower_ratio=int(self.config_data["bots"][self.botid]["behaviors"]["friendFollowerRatio"])   # target ration of friends to followers
@@ -134,21 +135,24 @@ def get_behaviors(self):
     self.logging_frequency=int(self.config_data["bots"][self.botid]["behaviors"]["loggingFrequency"])   # frequency to log stats
     self.follower_actions_frequency=int(self.config_data["bots"][self.botid]["behaviors"]["followerActionsFrequency"])   # frequency to conduct follower actions
     self.relevancy_proximity=int(self.config_data["bots"][self.botid]["behaviors"]["relevancyProximity"])   # required proximity of search terms 
-    self.morning_start_time=int(self.config_data["bots"][self.botid]["behaviors"]["morningStartTime"])   # bot start time
-    self.evening_end_time=int(self.config_data["bots"][self.botid]["behaviors"]["eveningEndTime"])   # bot end time
 
-def is_it_sleep_time(self):
-    #format to 24Hour time
-    fmt = '%H' 
-    # Current time in UTC
+def is_bot_active(self):
+    should_bot_be_active=False
+
+    #laod bot work schedule
+    with open(os.getcwd() + '/config/' + self.config_data["jsonConfigFiles"]["workSchedule"]) as data_file:    
+        schedule_config = json.load(data_file)
+
+    # Get current time and covert to PST
     server_utc = datetime.now(timezone('UTC'))
     server_now_pst = server_utc.astimezone(timezone('US/Pacific'))
-    sdt = int(server_now_pst.strftime(fmt))
 
-    if (sdt > 12 and sdt > self.evening_end_time) or (sdt < 12 and sdt < self.morning_start_time):
-        return True
-    else:
-        return False
+    for active_windows in schedule_config["schedules"][self.work_schedule][server_now_pst.weekday()]["schedule"]:
+        if server_now_pst.hour in range(int(active_windows["start"]), int(active_windows["stop"])):
+            should_bot_be_active=True
+            break;
+
+    return should_bot_be_active
 
 def bon_analysis(self,twitter_handle): #bot or not score - more info here: https://truthy.indiana.edu/botornot/
     twitter_app_auth = {

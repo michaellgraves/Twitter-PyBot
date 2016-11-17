@@ -2,10 +2,12 @@
    "desc":"Config supports multiple bots",
    "version":"1.0",
    "jsonConfigFiles":{  
+      "workSchedule":"schedule.json",
       "searchTerms":"search_terms.json",
       "profanityList":"profanity_list.json",
       "excludeTerms":"exclude_terms.json",
       "tweetText":"update_status_text.json"
+
    },
    "globalParameters":{  
       "minSleepTime":"600"
@@ -24,6 +26,7 @@
             "accessSecret":"your-twitter-access-secret"
          },
          "behaviors":{  
+            "workSchedule":"standard-work-week",
             "maxTweetsSearch":"1000",
             "targetTweetActionsPerSession":"10",
             "friendFollowerRatio":"3",
@@ -38,9 +41,7 @@
             "tweetStatusFrequency":"12000",
             "loggingFrequency":"6",
             "followerActionsFrequency":"24",
-            "relevancyProximity":"2",
-            "morningStartTime":"6",
-            "eveningEndTime":"23"
+            "relevancyProximity":"2"
          }
       },
       {  
@@ -55,6 +56,7 @@
             "accessSecret":"your-twitter-access-secret"
          },
          "behaviors":{  
+            "workSchedule":"standard-work-week",
             "maxTweetsSearch":"300",
             "targetTweetActionsPerSession":"5",
             "friendFollowerRatio":"10",
@@ -69,9 +71,7 @@
             "tweetStatusFrequency":"500",
             "loggingFrequency":"5",
             "followerActionsFrequency":"2",
-            "relevancyProximity":"2",
-            "morningStartTime":"8",
-            "eveningEndTime":"21"
+            "relevancyProximity":"2"
 
          }
       }
